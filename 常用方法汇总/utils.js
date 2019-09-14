@@ -16,3 +16,20 @@ function getParams(url){
     }
     return params
 }
+
+
+/**
+ * 获取设备类型
+ * 使用
+ * let isWeiXin = device().isWeixin
+ */
+function device(){
+    let ua = navigator.userAgent
+    return {
+        isChrome: ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/),
+        isAndroid: ua.match(/(Android);?[\s/]+([\d.]+)?/),
+        isIphone: ua.indexOf('iPhone') != -1,
+        isWeixin: ua.match(/MicroMessenger/i),
+        isTraining: ua.match(/training/i)
+    }
+}
