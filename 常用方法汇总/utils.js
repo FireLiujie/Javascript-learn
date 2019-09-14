@@ -33,3 +33,12 @@ function device(){
         isTraining: ua.match(/training/i)
     }
 }
+
+/**
+ * @description 去除前后空格
+ * @param {String} 值
+ * @return {String}
+ */
+function trim(val){
+    return val.replace(/(^\s*)|(\s*$)/g,'')
+}
