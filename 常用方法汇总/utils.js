@@ -42,3 +42,4 @@ function device(){
 function trim(val){
     return val.replace(/(^\s*)|(\s*$)/g,'')
 }
+
