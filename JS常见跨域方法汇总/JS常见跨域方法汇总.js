@@ -277,3 +277,35 @@ window.onmessage = function(e) {
   console.log(e.data); // 我爱你
   e.source.postMessage("我不爱你", e.origin);
 };
+
+/**
+ * 4、websocket
+ * Websocket是HTML5的一个持久化的协议，它实现了浏览器与服务器的全双工通信，同时也是跨域的一种解决方案。
+ * Websocket和HTTP都是应用层协议，都基于TCP协议。但是Websocket是一种双向通信协议，在建立连接之后，Websocket
+ * 的server与client都能主动向对方发送或接收数据。同时，Websocket在建立连接时需要借助HTTP协议，连接
+ * 建立好了之后client与server之间的双向通信就与HTTP无关了。
+ *
+ * 原生Websocket API使用起来不太方便，我们使用Scoket.io，它很好地封装了websocket接口，提供了更简单、灵活
+ * 的接口，也对不支持websocket的浏览器提供了向下兼容。
+ */
+
+// socket.html
+let socket = new WebSocket("ws://localhost:3000");
+socket.onopen = function() {
+  socket.send("我爱你"); // 向服务器发送数据
+};
+socket.onmessage = function(e) {
+  console.log(e.data); // 接收服务器返回的数据
+};
+
+// server.js
+let express = require("express");
+let app = express();
+let WebSocket = require("ws"); // 记得安装ws
+let wss = new WebSocket.Server({ postMessage: 3000 });
+wss.on("connection", function(ws) {
+  ws.on("message", function(data) {
+    console.log(data);
+    ws.send("我不爱你");
+  });
+});
