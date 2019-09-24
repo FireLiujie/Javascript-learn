@@ -233,3 +233,47 @@ app.listen(4000);
 /**
  * 上述代码由http://localhost:3000向http://localhost:4000跨域请求，正如我们上面说的，后端是实现CORS通信的关键
  */
+
+/**
+ * 3、postMessage
+ * postMessage是HTML5 XMLHttpRequest Level 2种的API，且是为数不多可以跨域操作的window属性之一，它可用于解决以下方面的问题
+ *   页面和其打开的新窗口的数据传递
+ *   多窗口之间消息传递
+ *   页面与嵌套的iframe消息传递
+ *   上面三个场景的跨域数据传递
+ *
+ * postMessage()方法允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递
+ * otherWindow.postMessage(message,targetOrigin,[transfer])
+ *  message: 将要发送到其他window的数据
+ *  targetOrigin:通过窗口的origin属性来指定哪些窗口能接收到消息事件，其值可以是字符串“*”（表示无限制）或者一个URI。在发送消息的时候
+ *               如果目标窗口的协议、主机地址或端口这三者的任意一项不匹配targetOrigin提供的值，那么消息就不会被发送；只有三者完全
+ *               匹配，消息才会被发送。
+ *  transfer(可选)：是一串和message同时传递的Transferable对象，这些对象的所有权将被转移给消息的接受方，而发送一方将不再保有所有权
+ *
+ *
+ * 接下来我们看个例子：http://localhost:3000/a.html页面向http://localhost:4000/b.html传递“我爱你”,
+ * 然后后者传回“我不爱你”
+ */
+
+// a.html
+<iframe
+  src="http://localhost:4000/b.html"
+  frameborder="0"
+  id="frame"
+  onclick="load()"
+></iframe>;
+// 内嵌在http://localhost:3000/a.html
+function load() {
+  let frame = document.getElementById("frame");
+  frame.contentWindow.postMessage("我爱你", "http://localhost:4000"); // 发送数据
+  window.onmessage = function(e) {
+    // 接受返回数据
+    console.log(e.data); // 我不爱你
+  };
+}
+
+//b.html
+window.onmessage = function(e) {
+  console.log(e.data); // 我爱你
+  e.source.postMessage("我不爱你", e.origin);
+};
