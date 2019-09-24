@@ -309,3 +309,91 @@ wss.on("connection", function(ws) {
     ws.send("我不爱你");
   });
 });
+
+/**
+ * 5、node中间件代理（两次跨域）
+ * 实现原理：同源策略是浏览器需要遵循的标准，而如果是服务器向服务器请求就无须遵循同源策略。
+ * 代理服务器，需要做以下几个步骤：
+ *    接收客户端请求
+ *    将请求转发给服务器
+ *    拿到服务器响应数据
+ *    将响应转发给客户端
+ *
+ * 先来看个例子：本地文件index.html文件，通过代理服务器http://localhost:3000向目标服务器http://localhost:4000
+ * 请求数据
+ */
+
+// index.html (http://127.0.0.1:5500)
+$.ajax({
+  url: "http://localhost:3000",
+  type: "post",
+  data: {
+    name: "xiamen",
+    password: "123456"
+  },
+  contentType: "application/json;charset=utf-8",
+  success: function(result) {
+    console.log(result); // {title: 'fontend',password: '123456'}
+  },
+  error: function(msg) {
+    console.log(msg);
+  }
+});
+
+//server1.js 代理服务器(http://localhost:3000)
+const http = require("http");
+// 第一步：接受客户端请求
+const server = http.createServer((request, response) => {
+  // 代理服务器，直接和浏览器直接交互，需要设置CORS的首部字段
+  response.writeHead(200, {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "Content-Type"
+  });
+  // 第二步：将请求转发给服务器
+  const proxyRequest = http
+    .request(
+      {
+        host: "127.0.0.1",
+        port: 4000,
+        url: "/",
+        method: request.method,
+        headers: request.headers
+      },
+      serverResponse => {
+        // 第三步：收到服务器的响应
+        var body = "";
+        serverResponse.on("data", chunk => {
+          body += chunk;
+        });
+        serverResponse.on("end", () => {
+          console.log("The data is " + body);
+          // 第四步：将响应结果转发给浏览器
+          response.end(body);
+        });
+      }
+    )
+    .end();
+});
+
+server.listen(3000, () => {
+  console.log("The proxyServer is running at http://localhost:3000");
+});
+
+// server2.js (http://localhost:4000)
+const http = require("http");
+const data = { title: "fontend", password: "123456" };
+const server = http.createServer((request, response) => {
+  if (request.url === "/") {
+    response.end(JSON.stringify(data));
+  }
+});
+
+server.listen(4000, () => {
+  console.log("The server is running at http://localhost:4000");
+});
+
+/**
+ * 上述代码进过两次跨域，值得注意的是浏览器向代理服务器发送请求，也遵循同源策略，最后在
+ * index.html文件打印出{'title':'fontend','password': '123456'}
+ */
