@@ -519,3 +519,42 @@ console.log(location.hash);
 let iframe = document.createElement("iframe");
 iframe.src = "http://localhost:3000/b.html#idonotloveyou";
 document.body.appendChild(iframe);
+
+/**
+ * document.domain + iframe
+ * 该方式只能用于二级域名相同的情况下，比如a.test.com和b.test.com适用于该方式。只需要给页面添加document.domain='test.com'
+ * 表示二级域名都相同就可以实现跨域
+ *
+ * 实现原理：两个页面都通过js强制设置document.domain为基础主域，就实现了同域
+ *
+ * 我们看个例子：页面a.zf1.cn:3000/a.html获取页面b.zf1.cn:3000/b.html中的a的值
+ */
+
+// a.html
+<body>
+  helloa
+  <iframe
+    src="http://b.zf1.cn:3000/b.html"
+    frameborder="0"
+    onload="load()"
+    id="frame"
+  ></iframe>
+  <script>
+    document.domain = 'zf1.cn' function load()
+    {console.log(frame.contentWindow.a)}
+  </script>
+</body>;
+
+// b.html
+<body>
+  hellob
+  <script>document.domain = 'zf1.cn' var a = 100</script>
+</body>;
+
+/**
+ * 跨域总结
+ * 1、CORS支持所有类型的HTTP请求，是跨域HTTP请求的根本解决方案
+ * 2、JSONP只支持GET请求，JSONP的优势在于支持老式浏览器，以及可以向不支持CORS的网站请求数据
+ * 3、不管是Node中间件代理还是nginx反向代理，主要是通过同源策略对服务器不加限制
+ * 4、日常工作中，用的比较多的跨域方案是CORS和NGINX反向代理
+ */
