@@ -493,3 +493,29 @@ window.name = "我不爱你";
  * 总结：通过iframe的src属性由外域转向本地域，跨域数据即由iframe的window.name从外域传递到本地域。这个就巧妙
  * 的绕过了浏览器的跨域访问限制，但同时它又是安全操作。
  */
+
+/**
+ * location.hash +iframe
+ * 实现原理：a.html欲与c.html跨域相互通信，通过中间页b.html来实现。三个页面，不同域之间利用iframe的location.hash
+ * 传值，相同域直接直接js访问来通信
+ *
+ * 具体实现步骤：一开始a.html给c.html传一个hash值，然后c.html收到hash值后，再把hash值传递给b.html，最后b.html
+ * 将结果放到a.html的hash值中。同样的，a.html和b.html是同域的，都是http://localhost:3000；而c.html是http://localhost:4000
+ */
+
+// a.html
+<iframe src="http://localhost:4000/c.html#iloveyou"></iframe>;
+window.onhashchange = function() {
+  // 检测hash的变化
+  console.log(location.hash);
+};
+
+// b.html
+window.parent.parent.location.hash = location.hash;
+// b.html将结果放到a.html的hash值中，b.html可通过parent.parent访问a.html页面
+
+// c.html
+console.log(location.hash);
+let iframe = document.createElement("iframe");
+iframe.src = "http://localhost:3000/b.html#idonotloveyou";
+document.body.appendChild(iframe);
