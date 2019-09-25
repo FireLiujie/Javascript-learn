@@ -455,3 +455,41 @@ server.on("request", function(req, res) {
 });
 server.listen("8080");
 console.log("Server is running at port 8080...");
+
+/**
+ * 7、window.name + iframe
+ * window.name 属性的独特之处：name值在不同的页面（甚至不同域名）加载后依旧存在，并且可以支持非常长的name值（2MB）
+ *
+ * 其中a.html和b.html是同域的，都是http://localhost:3000;而c.html是http://localhost:4000
+ */
+
+//  a.html
+<iframe
+  src="http://localhost:4000/c.html"
+  frameborder="0"
+  onload="load()"
+  id="iframe"
+></iframe>;
+let first = true;
+// onload事件会触发2次，第1次加载跨域页，并留存数据于window.name
+function load() {
+  if (first) {
+    // 第1次onload（跨域）成功后，切换到同域代理页面
+    let iframe = document.getElementById("iframe");
+    iframe.src = "http://localhost:3000/b.html";
+    first = false;
+  } else {
+    // 第2次onload（同域b.html）成功后，读取同域window.name中数据
+    console.log(iframe.contentWindw.name);
+  }
+}
+
+// b.html为中间代理页，与a.html同域，内容为空。
+
+// c.html(http://localhost:4000/c.html)
+window.name = "我不爱你";
+
+/**
+ * 总结：通过iframe的src属性由外域转向本地域，跨域数据即由iframe的window.name从外域传递到本地域。这个就巧妙
+ * 的绕过了浏览器的跨域访问限制，但同时它又是安全操作。
+ */
