@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       *对于单页应用的history模式而言，url的改变只能由下面四种方式引起：
+            1.点击浏览器的前进或后退按钮
+            2.点击a标签
+            3.在JS代码中触发history.pushState函数
+            4.在JS代码中触发history.replaceState函数
+
+
+        思路已经有了，接下来我们来实现一个路由对象
+        1.创建一个路由对象，实现register方法用于注册每个location.pathname值对应的回调函数
+        2.当location.pathname === '/' 时，认为是首页，所以实现registerIndex方法用于注册首页时的回调函数
+        3.解决location.path没有对应的匹配，增加方法registerNotFound用于注册默认回调函数
+        4.解决注册的回调函数执行时出现异常，增加方法registerError用于处理异常情况
+        5.定义assign方法，用于通过JS触发history.pushState函数
+        6.定义replace方法，用于通过JS触发history.replaceState函数
+        7.监听popstate用于处理前进后退时调用对应的回调函数
+        8.全局阻止A链接的默认事件，获取A链接的href属性，并调用history.pushState方法
+        9.定义load方法，用于首次进入页面时，根据location.pathname调用对应的回调函数
+       */
+    </script>
+  </body>
+</html>
