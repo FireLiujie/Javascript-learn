@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .image {
+        background: #665533;
+        border: 1px solid #665533;
+        width: 200px;
+        height: 200px;
+      }
+      .image-contain {
+        object-fit: contain;
+        object-position: center;
+      }
+      .image-cover {
+        object-fit: cover;
+        object-position: left top;
+      }
+      /*
+        object-fit:contain 容器内显示整个图像，并且保持宽高比
+        object-fit:cover   用图像填充容器，并保持宽高比
+        object-position: [x] [y] 对图像的显示部位进行调整
+
+        需要注意的是，object-fit这个属性在浏览器中的支持度并不高
+      */
+    </style>
+  </head>
+  <body>
+    <img
+      class="image image-contain"
+      src="https://picsum.photos/600/200"
+      alt=""
+    />
+    <img class="image image-cover" src="https://picsum.photos/600/200" alt="" />
+  </body>
+</html>
