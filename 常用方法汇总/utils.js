@@ -41,6 +41,12 @@ function device() {
  * @param {String} 值
  * @return {String}
  */
+<<<<<<< HEAD
+function trim(val){
+    return val.replace(/(^\s*)|(\s*$)/g,'')
+}
+
+=======
 function trim(val) {
   return val.replace(/(^\s*)|(\s*$)/g, "");
 }
@@ -78,3 +84,4 @@ function dataURLtoFile(dataurl, filename) {
   }
   return new File([u8arr], filename, { type: mime });
 }
+>>>>>>> 0ed774b2ffaab907758da8e3fa0e694eec4d1a7f
