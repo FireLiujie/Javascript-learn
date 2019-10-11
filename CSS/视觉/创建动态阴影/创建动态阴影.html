@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .dynamic-shadow {
+        position: relative;
+        width: 10rem;
+        height: 10rem;
+        background: linear-gradient(75deg, #6d78ff, #00ffb8);
+        z-index: 1;
+      }
+      .dynamic-shadow::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: inherit;
+        top: 0.5rem;
+        filter: blur(0.4rem);
+        opacity: 0.7;
+        z-index: -1;
+      }
+      /*
+        ::after 定义一个伪元素
+        position:absolute 使伪元素脱离文档流并相对于父级定位
+        width: 100% and height: 100% 对伪元素进行大小调整以填充其父元素的大小，使其大小相等
+        background:inherit 使伪元素继承父级的线性渐变
+        top: 0.5rem 将伪元素相对于其父元素略微偏移
+        filter: blur(0.4rem)设置伪元素模糊效果，以创建下方阴影效果
+        opacity: 0.7 设置伪元素透明度
+        z-index: -1 将伪元素定位在父元素后面但在背景前面
+      */
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-shadow"></div>
+  </body>
+</html>
