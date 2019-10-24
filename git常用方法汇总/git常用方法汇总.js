@@ -13,9 +13,20 @@
  * git pull origin master:master
  */
 
- /**
-  * git pull origin <remote_branch>
-  * 场景：在当前分支上进行同步操作
-  * 作用：将指定远程分支同步到当前本地分支
-  * git pull origin master
-  */
+/**
+ * git pull origin <remote_branch>
+ * 场景：在当前分支上进行同步操作
+ * 作用：将指定远程分支同步到当前本地分支
+ * git pull origin master
+ */
+
+/**
+ * git pull
+ * 场景：本地分支已经和想要拉取的分支建立了“关联”关系
+ * 作用：拉取所有远程分支的新版本“坐标”，并同步当前分支的本地代码（具体根据关联分支而定）
+ */
+
+/**
+ * git branch -vv
+ * 查看目前分支的“关联”情况
+ */
