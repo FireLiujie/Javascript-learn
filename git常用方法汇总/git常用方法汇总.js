@@ -50,3 +50,10 @@
  * 例如：git push origin dev:master
  * 同步本地的dev和远端的master分支，这样同步后本地的master分支可能会落后远程master分支
  */
+
+
+ /**
+  * git log
+  * 查看日志
+  * 需要注意的是，查看后想退出查看日志仅需要输入q即可
+  */
