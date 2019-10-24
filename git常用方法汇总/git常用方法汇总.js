@@ -51,9 +51,27 @@
  * 同步本地的dev和远端的master分支，这样同步后本地的master分支可能会落后远程master分支
  */
 
+/**
+ * git log
+ * 查看日志
+ * git log --oneline
+ * 把每一个提交压缩到一行中
+ * 需要注意的是，查看后想退出查看日志仅需要输入q即可
+ */
 
- /**
-  * git log
-  * 查看日志
-  * 需要注意的是，查看后想退出查看日志仅需要输入q即可
-  */
+/**
+ * git tag <name>用于新建一个标签，默认为HEAD，也可以指定一个commit id
+ * git tag 查看所有标签
+ * git tag -a <tagname> -m "message" 可以指定标签信息
+ */
+
+/**
+ * git tag -d <tagname>可以杀出一个本地标签
+ * git push origin <tagname>可以推送一个本地标签
+ * git push origin --tags 可以推送全部未推送过的本地标签
+ * git push origin :refs/tags/<tagname>可以删除一个远程标签
+ * 
+ * 因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+ * 如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除，然后从远程删除，删除命令也是push
+ * 例如：git push origin :refs/tags/v1.0
+ */
