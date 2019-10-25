@@ -70,8 +70,32 @@
  * git push origin <tagname>可以推送一个本地标签
  * git push origin --tags 可以推送全部未推送过的本地标签
  * git push origin :refs/tags/<tagname>可以删除一个远程标签
- * 
+ *
  * 因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
  * 如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除，然后从远程删除，删除命令也是push
  * 例如：git push origin :refs/tags/v1.0
+ */
+
+/**
+ * HEAD指向的版本就是当前版本，因此，git允许我们在版本的历史之间穿梭，使用命令git reset --haed commit_id
+ * 穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本
+ * 要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本
+ */
+
+/**
+ * git branch 查看分支
+ * git branch <name>创建分支
+ * git checkout <name> 或者 git switch <name> 切换分支
+ * git checkout -b <name> 或者 git switch -c <name>创建+切换分支
+ * git merge <name> 合并某分支到当前分支
+ * git branch -d <name> 删除分支
+ */
+
+/**
+ * git stash
+ * 注意：这个功能十分好用
+ * 当手头工作没有完成时，先把工作现场git stash 一下，然后去修复bug，修复后，再git stash pop，回到工作现场
+ *
+ * git cherry-pick <commit>
+ * 在master分支上修复的bug，想要合并到当前dev分支，可以用git cherry-pick <commit>命令，把bug提交的修复“复制”到当前分支，避免重复劳动
  */
