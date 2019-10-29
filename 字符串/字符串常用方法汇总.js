@@ -94,7 +94,6 @@ console.log(arr) // ['12','sd',', ','sd-12','sd']
   for(var i = 0;i<str2.length;i++){
       arr2.push(str2.charCodeAt(i))
   }
-
   console.log(arr2) // [20320,22909]
   for(var i =0;i<arr2.length;i++){
       newStr += String.fromCharCode(arr2[i])
