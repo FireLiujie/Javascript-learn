@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      ul {
+        counter-reset: counter;
+      }
+      li::before {
+        counter-increment: counter;
+        content: counters(counter, ".") " ";
+      }
+      /*
+        counter-reset 初始化计数器，该值是计数器的名称。默认情况下，计数器从0开始。此属性还可用于将其值更改为任何特定数字
+        counter-increment用于可数的元素。一旦计数器重置初始化，计数器的值可以增加或减少
+        counter(name,style) 显示节计数器的值。通常用于内容属性。此函数可以接收两个参数，第一个为计数器的名称，第二个参数表示占位内容，例如3.1的小数点
+        CSS计数器对于制作轮廓列表特别有用，因为计数器的新实例是在子元素中自动创建的。使用counters()函数，可以在不同级别的嵌套计数器之间插入分隔文本。
+      */
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li>List item</li>
+      <li>List item</li>
+      <li>
+        <ul>
+          <li>List item</li>
+          <li>List item</li>
+          <li>List item</li>
+        </ul>
+      </li>
+    </ul>
+  </body>
+</html>

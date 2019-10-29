@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .container > div:last-child {
+        background-color: tomato;
+        flex: 1;
+      }
+      /*
+        height:100% 将容器的高度设为视口的高度
+        display:flex 启用flex
+        flex-direction:column 将项目的顺序设置成从上到下
+        flex-grow: 1 flex-box会将容器剩余可用空间应用于最后一个子元素。父级必须具有视口高度，flex-grow：1可以应用于第一个或第二个元素，它将具有所有可用空间
+      */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </div>
+  </body>
+</html>
