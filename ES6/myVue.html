@@ -9,19 +9,23 @@
   </head>
   <body>
     <div id="app">
-      {{message}}gydhuj
+      {{message}}---这是多余的东西
       <div>
         <span></span>
         <div>{{message}}</div>
       </div>
+      <div>{{message}}</div>
     </div>
     <script>
       let vm = new Kvue({
         el: '#app',
         data: {
-          message: '测试'
+          message: '测试结果了',
+          age: 20
         }
       })
+      console.log(vm.options.data)
+      // vm.options.data.message = '123'
     </script>
   </body>
 </html>
