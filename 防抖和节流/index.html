@@ -20,7 +20,7 @@
           timer = setTimeout(() => {
             func.apply(context, arg)
           }, relay)
-          if (timer) func.apply(context, arg)
+          if (callNow) func.apply(context, arg)
         }
       }
       let func = debounce(() => {
