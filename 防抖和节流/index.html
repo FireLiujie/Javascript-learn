@@ -9,18 +9,22 @@
   <body>
     <input type="text" />
     <script>
+      // 防抖立即执行版，非立即执行只需要把callNow去掉即可
       function debounce(func, relay) {
         let timer
         return function() {
           if (timer) clearTimeout(timer)
           let context = this
+          let arg = arguments
+          let callNow = !timer
           timer = setTimeout(() => {
-            func.apply(context)
+            func.apply(context, arg)
           }, relay)
+          if (timer) func.apply(context, arg)
         }
       }
       let func = debounce(() => {
-        console.log(this)
+        console.log(111)
       }, 2000)
       let input = document.querySelector('input')
       input.addEventListener('input', func)
