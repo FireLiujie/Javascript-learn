@@ -9,7 +9,11 @@
   </head>
   <body>
     <script>
-      let p1 = new MPromise()
+      let p1 = new MPromise(() => {
+        setTimeout(_ => {
+          console.log('222')
+        }, 1000)
+      })
     </script>
   </body>
 </html>
