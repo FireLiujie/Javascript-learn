@@ -9,17 +9,17 @@
   </head>
   <body>
     <script>
-      setTimeout(_ => {
-        console.log(555)
-      }, 0)
+      // setTimeout(_ => {
+      //   console.log(555)
+      // }, 0)
       let p1 = new MPromise((resolve, reject) => {
-        // setTimeout(_ => {
-        //   console.log('222')
-        //   resolve()
-        //   reject()
-        // }, 1000)
-        console.log(222)
-        resolve()
+        setTimeout(_ => {
+          console.log('222')
+          // resolve('ceshi')
+          reject('err1343')
+        }, 1000)
+        // console.log(222)
+        // resolve()
       })
       p1.then(
         res => {

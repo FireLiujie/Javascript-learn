@@ -11,28 +11,32 @@ class MPromise {
     this.status = MPromise.PENDING
     this.resolvedQueue = []
     this.rejectedQueue = []
+    this.value = ''
     handle(this._resolve.bind(this), this._reject.bind(this))
   }
-  _resolve() {
+  _resolve(val) {
     window.addEventListener('message', _ => {
       if (this.status !== MPromise.PENDING) return
       this.status = MPromise.RESOLVED
+      this.value = val
       let handle
       if ((handle = this.resolvedQueue.shift())) {
-        handle()
+        handle(this.value)
       }
     })
     window.postMessage('')
   }
-  _reject() {
+  _reject(val) {
     window.addEventListener('message', _ => {
       if (this.status !== MPromise.PENDING) return
       this.status = MPromise.REJECTED
+      this.value = val
       let handle
       if ((handle = this.rejectedQueue.shift())) {
-        handle()
+        handle(this.value)
       }
     })
+    window.postMessage('')
   }
   then(resolveHandler, rejectedHandler) {
     this.resolvedQueue.push(resolveHandler)
