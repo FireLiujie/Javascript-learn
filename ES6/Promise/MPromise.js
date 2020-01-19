@@ -8,12 +8,18 @@ class MPromise {
         'Promise resolver undefined is not a function at new Promise '
       )
     }
-    handle(this._resolve, this, this._reject)
+    this.status = MPromise.PENDING
+    handle(this._resolve.bind(this), this._reject.bind(this))
   }
   _resolve() {
+    if (this.status !== MPromise.PENDING) return
+    this.status = MPromise.RESOLVED
     console.log('resolve')
   }
   _reject() {
+    if (this.status !== MPromise.PENDING) return
+    this.status = MPromise.REJECTED
     console.log('reject')
   }
+  then() {}
 }

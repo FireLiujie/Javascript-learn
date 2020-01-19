@@ -11,10 +11,16 @@
       let p1 = new Promise((resolve, reject) => {
         setTimeout(() => {
           console.log('111')
-          // resolve()
-          reject()
+          reject('22')
         }, 1000)
-      })
+      }).then(
+        val => {
+          console.log('resolve', val)
+        },
+        err => {
+          console.log('err', err)
+        }
+      )
     </script>
   </body>
 </html>

@@ -9,11 +9,21 @@
   </head>
   <body>
     <script>
-      let p1 = new MPromise(() => {
+      let p1 = new MPromise((resolve, reject) => {
         setTimeout(_ => {
           console.log('222')
+          resolve()
+          reject()
         }, 1000)
       })
+      // p1.then(
+      //   res => {
+      //     console.log(res)
+      //   },
+      //   err => {
+      //     console.log(err)
+      //   }
+      // )
     </script>
   </body>
 </html>
