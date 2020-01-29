@@ -21,14 +21,18 @@
         // console.log(222)
         // resolve()
       })
-      p1.then(
+      let p2 = p1.then(
         res => {
           console.log('res', res)
+          return '1233'
         },
         err => {
           console.log('err', err)
         }
       )
+      p2.then(val => {
+        console.log('val', val)
+      })
     </script>
   </body>
 </html>

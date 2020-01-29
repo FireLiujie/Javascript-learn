@@ -39,7 +39,19 @@ class MPromise {
     window.postMessage('')
   }
   then(resolveHandler, rejectedHandler) {
-    this.resolvedQueue.push(resolveHandler)
-    this.rejectedQueue.push(rejectedHandler)
+    // return new MPromise((resolve, reject) => {
+    //   function newResolveHandler() {
+    //     this.resolvedQueue.push(resolveHandler)
+    //     this.resolvedQueue.push()
+    //   }
+    // })
+    return new MPromise((resolve, reject) => {
+      function newResolveHandler() {
+        let result = resolveHandler()
+        // if(result)
+        resolve()
+      }
+      this.resolvedQueue.push(newResolveHandler)
+    })
   }
 }
