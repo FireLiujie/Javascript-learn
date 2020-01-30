@@ -20,7 +20,7 @@ class MPromise {
       this.status = MPromise.RESOLVED
       this.value = val
       let handle
-      if ((handle = this.resolvedQueue.shift())) {
+      while ((handle = this.resolvedQueue.shift())) {
         handle(this.value)
       }
     })
@@ -32,28 +32,46 @@ class MPromise {
       this.status = MPromise.REJECTED
       this.value = val
       let handle
-      if ((handle = this.rejectedQueue.shift())) {
+      while ((handle = this.rejectedQueue.shift())) {
         handle(this.value)
       }
     })
     window.postMessage('')
   }
   then(resolveHandler, rejectedHandler) {
+    console.log('````````````')
+    console.log('resolveHandler', resolveHandler)
     return new MPromise((resolve, reject) => {
       function newResolveHandler(val) {
-        let result = resolveHandler(val)
-        if (result instanceof MPromise) {
-          result.then(resolve, reject)
+        if (typeof resolveHandler === 'function') {
+          let result = resolveHandler(val)
+          if (result instanceof MPromise) {
+            result.then(resolve, reject)
+          } else {
+            resolve(result)
+          }
         } else {
-          resolve(result)
+          resolve(val)
         }
       }
       function newRejectedHandler(err) {
-        let result = rejectedHandler(err)
-        reject(result)
+        if (typeof rejectedHandler === 'function') {
+          let result = rejectedHandler(err)
+          if (result instanceof MPromise) {
+            result.then(resolve, reject)
+          } else {
+            reject(result)
+          }
+        } else {
+          reject(err)
+        }
       }
       this.resolvedQueue.push(newResolveHandler)
       this.rejectedQueue.push(newRejectedHandler)
     })
+  }
+  catch(rejectedHandler) {
+    console.log(rejectedHandler)
+    return this.then(undefined, rejectedHandler)
   }
 }
