@@ -11,3 +11,7 @@ Promise 的构造函数必须接收一个函数参数（也就是需要执行异
 4、由于 then 函数中函数参数需要在 resolve 或者 reject 函数执行之后再执行，故我们可以先在执行 then 函数时，将 then 函数的函数参数注册到执行队列中去，当 resolve 函数或者 reject 函数执行后再执行 then 函数的函数参数，故我们在构造函数中添加两个队列，resolvedQueue 和 rejectedQueue，在 resolve 和 reject 函数中判断当前 Promise 状态是否为 PENDING，如果为 PENDING 则执行队列中的第一个函数，否则直接 return
 
 5、Promise 函数是可以实现链式调用的，为了实现链式调用，我在 then 中返回一个新的 Promise 对象，此时需要将该 Promise 对象的 resolve 一起注册到可执行队列中去，故用了 newResolvedHandler 和 newRejectedHandler 来包装之前的 resolveHandler 和 rejectedHandler 函数
+
+6、finally 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作
+
+7、

@@ -11,6 +11,7 @@ class MPromise {
     this.status = MPromise.PENDING
     this.resolvedQueue = []
     this.rejectedQueue = []
+    this.finallyQueue = []
     this.value = ''
     handle(this._resolve.bind(this), this._reject.bind(this))
   }
@@ -23,6 +24,7 @@ class MPromise {
       while ((handle = this.resolvedQueue.shift())) {
         handle(this.value)
       }
+      this._finally(this.value)
     })
     window.postMessage('')
   }
@@ -33,6 +35,16 @@ class MPromise {
       this.value = val
       let handle
       while ((handle = this.rejectedQueue.shift())) {
+        handle(this.value)
+      }
+      this._finally(this.value)
+    })
+    window.postMessage('')
+  }
+  _finally() {
+    window.addEventListener('message', _ => {
+      let handle
+      while ((handle = this.finallyQueue.shift())) {
         handle(this.value)
       }
     })
@@ -46,11 +58,10 @@ class MPromise {
           if (result instanceof MPromise) {
             result.then(resolve, reject)
           } else {
-            console.log(result)
             resolve(result)
           }
         } else {
-          // resolve(val)
+          resolve(val)
         }
       }
       function newRejectedHandler(err) {
@@ -71,5 +82,19 @@ class MPromise {
   }
   catch(rejectedHandler) {
     return this.then(undefined, rejectedHandler)
+  }
+  finally(finallyHanler) {
+    this.finallyQueue.push(finallyHanler)
+  }
+
+  static resolve(val) {
+    return new MPromise(resolve => {
+      resolve(val)
+    })
+  }
+  static reject(val) {
+    return new MPromise((resolve, reject) => {
+      reject(val)
+    })
   }
 }
