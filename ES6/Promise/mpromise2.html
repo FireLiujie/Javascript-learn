@@ -28,9 +28,26 @@
       //     .finally(res => {
       //       console.log(res)
       //     })
-      MPromise.resolve('123').then(res => {
-        console.log(res)
-      })
+      //   MPromise.resolve('123').then(res => {
+      //     console.log(res)
+      //   })
+
+      MPromise.all([
+        MPromise.resolve(123),
+        MPromise.resolve('liujie'),
+        MPromise.reject('zhidao'),
+        new MPromise((resolve, reject) => {
+          setTimeout(_ => {
+            resolve('zhaf')
+          }, 1000)
+        })
+      ])
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     </script>
   </body>
 </html>

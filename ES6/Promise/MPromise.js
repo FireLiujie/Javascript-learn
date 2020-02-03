@@ -97,4 +97,54 @@ class MPromise {
       reject(val)
     })
   }
+
+  static all(iterator) {
+    let len = iterator.length
+    let i = 0
+    let vals = []
+
+    return new MPromise((resolve, reject) => {
+      iterator.forEach(it => {
+        it.then(val => {
+          i++
+          vals.push(val)
+          if (i === len) {
+            resolve(vals)
+          }
+        }).catch(e => {
+          reject(e)
+        })
+      })
+    })
+  }
+
+  static race(iterator) {
+    return new MPromise((resolve, reject) => {
+      iterator.forEach(it => {
+        it.then(val => {
+          resolve(val)
+        }).catch(e => {
+          reject(e)
+        })
+      })
+    })
+  }
+
+  static allSettled(iterator) {
+    let len = iterator.length
+    let i = 0
+    let vals = []
+
+    return new MPromise((resolve, reject) => {
+      iterator.forEach(it => {
+        it.finally(val => {
+          i++
+          vals.push(val)
+          if (i === len) {
+            resolve(vals)
+          }
+        }).catch(e => {})
+      })
+    })
+  }
 }
