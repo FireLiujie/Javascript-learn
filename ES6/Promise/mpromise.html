@@ -12,30 +12,41 @@
       let p1 = new MPromise((resolve, reject) => {
         resolve('333')
       })
-      let p2 = p1.then(
-        res => {
-          return new MPromise((resolve1, reject1) => {
-            setTimeout(() => {
-              console.log(666)
-              resolve1('777')
-            }, 1000)
-          })
-        },
-        err => {
-          console.log('err', err)
-          return '555'
-        }
-      )
-      p2.then(
-        val => {
-          console.log('val', val)
-        },
-        err => {
-          console.log('err', err)
-        }
-      ).catch(err => {
-        console.log('errCatch', err)
-      })
+      let p2 = p1
+        .then(
+          res => {
+            console.log(res)
+            // return new MPromise((resolve1, reject1) => {
+            //   setTimeout(() => {
+            //     console.log(666)
+            //     resolve1('777')
+            //   }, 1000)
+            // })
+            return 123
+          },
+          err => {
+            console.log('err', err)
+            return '555'
+          }
+        )
+        .then(
+          res => {
+            console.log(res)
+          },
+          err => {
+            console.log(err)
+          }
+        )
+      // p2.then(
+      //   val => {
+      //     console.log('val', val)
+      //   },
+      //   err => {
+      //     console.log('err', err)
+      //   }
+      // ).catch(err => {
+      //   console.log('errCatch', err)
+      // })
     </script>
   </body>
 </html>

@@ -39,8 +39,6 @@ class MPromise {
     window.postMessage('')
   }
   then(resolveHandler, rejectedHandler) {
-    console.log('````````````')
-    console.log('resolveHandler', resolveHandler)
     return new MPromise((resolve, reject) => {
       function newResolveHandler(val) {
         if (typeof resolveHandler === 'function') {
@@ -48,10 +46,11 @@ class MPromise {
           if (result instanceof MPromise) {
             result.then(resolve, reject)
           } else {
+            console.log(result)
             resolve(result)
           }
         } else {
-          resolve(val)
+          // resolve(val)
         }
       }
       function newRejectedHandler(err) {
@@ -71,7 +70,6 @@ class MPromise {
     })
   }
   catch(rejectedHandler) {
-    console.log(rejectedHandler)
     return this.then(undefined, rejectedHandler)
   }
 }
