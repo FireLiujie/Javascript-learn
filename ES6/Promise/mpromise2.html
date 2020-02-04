@@ -32,22 +32,29 @@
       //     console.log(res)
       //   })
 
-      MPromise.all([
-        MPromise.resolve(123),
-        MPromise.resolve('liujie'),
-        MPromise.reject('zhidao'),
-        new MPromise((resolve, reject) => {
-          setTimeout(_ => {
-            resolve('zhaf')
-          }, 1000)
-        })
-      ])
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      //   MPromise.all([
+      //     MPromise.resolve(123),
+      //     MPromise.resolve('liujie'),
+      //     MPromise.reject('zhidao'),
+      //     new MPromise((resolve, reject) => {
+      //       setTimeout(_ => {
+      //         resolve('zhaf')
+      //       }, 1000)
+      //     })
+      //   ])
+      //     .then(res => {
+      //       console.log(res)
+      //     })
+      //     .catch(err => {
+      //       console.log(err)
+      //     })
+      let p1 = new MPromise((resolve, reject) => {
+        console.log(111)
+        resolve('444')
+      }).then(res => {
+        console.log(33333)
+        console.log(res)
+      })
     </script>
   </body>
 </html>
