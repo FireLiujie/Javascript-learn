@@ -22,10 +22,16 @@ Promise 的构造函数必须接收一个函数参数（也就是需要执行异
 
 10、还有这样一个问题，前一个 MPromise 的 resolvehandler 的返回值可能并不是一个值，可能是一个新的 MPromise。因此，我们需要判断 resolveHandler 的返回值是否为 MPromise，如果是，那么需要在该返回的 MPromise 状态变更之后再执行之后的 then 函数；否则，直接将返回值传入到 new MPromise 的 resolve 中去
 
-6、finally 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作
+11、catch 方法将失败时执行的函数注册到 rejectedQueue 队列中去，当调用 reject 时，从 rejectedQueue 队列中取出该函数执行
 
-7、all 方法接收数组，所有的都成功才会返回成功的值，如果有一个返回失败，则返回失败
+12、finally 方法用于指定不管 Promise 对象最后状态如何，都会在 then 或者 catch 指定的回调函数执行完之后执行的操作。那么我们可以定义一个 finallyQueue 队列，初始化时将 finally 函数的参数放入到队列中去，在 resolve 和 reject 函数中，不管 MPromise 对象的状态变更为 resolved 或者 rejected，都会从 finallyQueue 队列中取出来执行
 
-8、race 方法接收数组，任意一个实例改变状态，就返回先改变状态的返回值
+13、MPromise.resolve()方法则直接 new 一个新的 MPromise，并执行 resolve 方法
 
-9、allSettled 方法接收数组，只要所有参数都执行完毕了，则执行后面的代码
+14、MPromise.reject()方法则直接 new 一个新的 MPromise，并执行 reject 方法
+
+15、all 方法接收数组，所有的都成功才会返回成功的值，如果有一个返回失败，则返回失败
+
+16、race 方法接收数组，任意一个实例改变状态，就返回先改变状态的返回值
+
+17、allSettled 方法接收数组，只要所有参数都执行完毕了，则执行后面的代码
