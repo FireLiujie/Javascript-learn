@@ -117,13 +117,40 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"js/Kxios/Kxios.js":[function(require,module,exports) {
+})({"js/Kxios/utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deepCopy = deepCopy;
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function deepCopy(source) {
+  var target = Array.isArray(source) ? [] : {};
+
+  for (var key in source) {
+    if (source.hasOwnProperty(key)) {
+      if (_typeof(source[key]) === 'object' && source !== null) {
+        deepCopy(source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+}
+},{}],"js/Kxios/Kxios.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _utils = require("./utils");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -134,13 +161,21 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Kxios =
 /*#__PURE__*/
 function () {
-  function Kxios() {
+  function Kxios(config) {
     _classCallCheck(this, Kxios);
+
+    this.defaults = (0, _utils.deepCopy)(config);
   }
 
   _createClass(Kxios, [{
     key: "get",
-    value: function get(url) {
+    value: function get(url, config) {
+      var _this = this;
+
+      // 把get传入的配置与对象默认配置进行整合
+      // this.defaults.url = url
+      // this.defaults = Object.assign(this.defaults, config)
+      // let configs =
       return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
 
@@ -148,7 +183,7 @@ function () {
           resolve(xhr.responseText);
         };
 
-        xhr.open('get', url, true);
+        xhr.open('get', _this.defaults.baseURL + _this.defaults.url, true);
         xhr.send();
       });
     }
@@ -158,19 +193,53 @@ function () {
 }();
 
 var kxios = new Kxios();
+console.log(kxios);
 var _default = kxios;
 exports.default = _default;
-},{}],"js/kxios-demo.js":[function(require,module,exports) {
+},{"./utils":"js/Kxios/utils.js"}],"js/Kxios/config.js":[function(require,module,exports) {
 "use strict";
 
-var _Kxios = _interopRequireDefault(require("./Kxios/Kxios.js"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  baseURL: '',
+  url: '',
+  method: 'get',
+  headers: {
+    'content-type': 'application/json'
+  }
+};
+exports.default = _default;
+},{}],"js/Kxios/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Kxios = _interopRequireDefault(require("./Kxios"));
+
+var _config = _interopRequireDefault(require("./config"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var kxios = new _Kxios.default(_config.default);
+var _default = kxios;
+exports.default = _default;
+},{"./Kxios":"js/Kxios/Kxios.js","./config":"js/Kxios/config.js"}],"js/kxios-demo.js":[function(require,module,exports) {
+"use strict";
+
+var _Kxios = _interopRequireDefault(require("./Kxios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _Kxios.default.get('http://localhost:7777/data').then(function (res) {
   console.log('kxios-res', res);
 });
-},{"./Kxios/Kxios.js":"js/Kxios/Kxios.js"}],"../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./Kxios":"js/Kxios/index.js"}],"../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
