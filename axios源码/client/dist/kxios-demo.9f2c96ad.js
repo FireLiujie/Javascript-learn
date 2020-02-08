@@ -185,8 +185,6 @@ function () {
   _createClass(Kxios, [{
     key: "get",
     value: function get(url, config) {
-      var _this = this;
-
       // 把get传入的配置与对象默认配置进行整合
       // this.defaults.url = url
       // this.defaults = Object.assign(this.defaults, config)
@@ -196,9 +194,10 @@ function () {
 
         xhr.onload = function () {
           resolve(xhr.responseText);
-        };
+        }; //   xhr.open('get', this.defaults.baseURL + this.defaults.url, true)
 
-        xhr.open('get', _this.defaults.baseURL + _this.defaults.url, true);
+
+        xhr.open('get', url, true);
         xhr.send();
       });
     }
@@ -207,9 +206,7 @@ function () {
   return Kxios;
 }();
 
-var kxios = new Kxios();
-console.log(kxios);
-var _default = kxios;
+var _default = Kxios;
 exports.default = _default;
 },{"./utils":"js/Kxios/utils.js"}],"js/Kxios/config.js":[function(require,module,exports) {
 "use strict";
@@ -251,6 +248,8 @@ var _Kxios = _interopRequireDefault(require("./Kxios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+console.log(_Kxios.default);
+
 _Kxios.default.get('http://localhost:7777/data').then(function (res) {
   console.log('kxios-res', res);
 });
@@ -282,7 +281,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64087" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57286" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

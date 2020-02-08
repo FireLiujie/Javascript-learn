@@ -14,13 +14,11 @@ class Kxios {
       xhr.onload = function() {
         resolve(xhr.responseText)
       }
-      xhr.open('get', this.defaults.baseURL + this.defaults.url, true)
+      //   xhr.open('get', this.defaults.baseURL + this.defaults.url, true)
+      xhr.open('get', url, true)
       xhr.send()
     })
   }
 }
 
-let kxios = new Kxios()
-console.log(kxios)
-
-export default kxios
+export default Kxios
