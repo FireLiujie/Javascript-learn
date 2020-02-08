@@ -1,5 +1,5 @@
-import kxios from './kxios-demo.js'
+import kxios from './Kxios/Kxios.js'
 
-axios.get('http://localhost:7777/data').then(res => {
+kxios.get('http://localhost:7777/data').then(res => {
   console.log('kxios-res', res)
 })
