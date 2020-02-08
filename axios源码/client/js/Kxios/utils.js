@@ -12,4 +12,18 @@ function deepCopy(source) {
   return target
 }
 
-export { deepCopy }
+function mergeConfig(obj1, obj2) {
+  let target = deepCopy(obj1)
+  let source = deepCopy(obj2)
+
+  Object.keys(source).reduce((t, k) => {
+    if (['url', 'method', 'baseURL'].includes(k)) {
+      t[k] = source[k]
+    }
+    if (['header'].includes(k)) {
+      t[k] = source[k]
+    }
+  }, target)
+}
+
+export { deepCopy, mergeConfig }

@@ -124,6 +124,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.deepCopy = deepCopy;
+exports.mergeConfig = mergeConfig;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -141,6 +142,20 @@ function deepCopy(source) {
   }
 
   return target;
+}
+
+function mergeConfig(obj1, obj2) {
+  var target = deepCopy(obj1);
+  var source = deepCopy(obj2);
+  Object.keys(source).reduce(function (t, k) {
+    if (['url', 'method', 'baseURL'].includes(k)) {
+      t[k] = source[k];
+    }
+
+    if (['header'].includes(k)) {
+      t[k] = source[k];
+    }
+  }, target);
 }
 },{}],"js/Kxios/Kxios.js":[function(require,module,exports) {
 "use strict";
