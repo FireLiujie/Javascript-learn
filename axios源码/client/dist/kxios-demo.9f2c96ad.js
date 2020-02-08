@@ -248,11 +248,16 @@ var _Kxios = _interopRequireDefault(require("./Kxios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import Kxios from './Kxios/kxios'
 console.log(_Kxios.default);
+_Kxios.default.defaults.method = 'post';
 
 _Kxios.default.get('http://localhost:7777/data').then(function (res) {
   console.log('kxios-res', res);
-});
+}); // let api1 = new Kxios({
+//   baseURL: 'http://localhost:7777'
+// })
+// api1.('/data')
 },{"./Kxios":"js/Kxios/index.js"}],"../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
