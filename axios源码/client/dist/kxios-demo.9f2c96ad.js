@@ -155,7 +155,11 @@ function mergeConfig(obj1, obj2) {
     if (['header'].includes(k)) {
       t[k] = source[k];
     }
+
+    return t;
   }, target);
+  console.log(target);
+  console.log(source);
 }
 },{}],"js/Kxios/Kxios.js":[function(require,module,exports) {
 "use strict";
@@ -185,19 +189,22 @@ function () {
   _createClass(Kxios, [{
     key: "get",
     value: function get(url, config) {
+      var _this = this;
+
       // 把get传入的配置与对象默认配置进行整合
       // this.defaults.url = url
       // this.defaults = Object.assign(this.defaults, config)
-      // let configs =
+      var configs = (0, _utils.mergeConfig)(this.defaults, config);
+      console.log(configs);
       return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
 
         xhr.onload = function () {
           resolve(xhr.responseText);
-        }; //   xhr.open('get', this.defaults.baseURL + this.defaults.url, true)
+        };
 
+        xhr.open('get', _this.defaults.baseURL + _this.defaults.url, true); //   xhr.open('get', url, true)
 
-        xhr.open('get', url, true);
         xhr.send();
       });
     }
@@ -249,12 +256,20 @@ var _Kxios = _interopRequireDefault(require("./Kxios"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import Kxios from './Kxios/kxios'
-console.log(_Kxios.default);
-_Kxios.default.defaults.method = 'post';
+// kxios.defaults.method = 'post'
+_Kxios.default.get('/data', {
+  baseURL: 'http://localhost:7777',
+  headers: {
+    name: 'liujie'
+  }
+}).then(function (res) {
+  console.log(res);
+});
 
-_Kxios.default.get('http://localhost:7777/data').then(function (res) {
-  console.log('kxios-res', res);
-}); // let api1 = new Kxios({
+console.log(_Kxios.default); // kxios.get('http://localhost:7777/data').then(res => {
+//   console.log('kxios-res', res)
+// })
+// let api1 = new Kxios({
 //   baseURL: 'http://localhost:7777'
 // })
 // api1.('/data')

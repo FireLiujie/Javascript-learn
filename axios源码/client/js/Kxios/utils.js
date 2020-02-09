@@ -23,7 +23,10 @@ function mergeConfig(obj1, obj2) {
     if (['header'].includes(k)) {
       t[k] = source[k]
     }
+    return t
   }, target)
+  console.log(target)
+  console.log(source)
 }
 
 export { deepCopy, mergeConfig }
