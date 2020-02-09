@@ -5,7 +5,7 @@ export default configs => {
       resolve({
         statusCode: xhr.status,
         statusText: xhr.statusText,
-        data: xhr.responseText
+        data: configs.transformResponse(xhr.responseText)
       })
     }
     xhr.open('get', configs.baseURL + configs.url, true)

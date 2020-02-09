@@ -8,5 +8,8 @@ export default {
   },
   adaptor(config) {
     return ajax(config)
+  },
+  transformResponse: function(data) {
+    return data
   }
 }

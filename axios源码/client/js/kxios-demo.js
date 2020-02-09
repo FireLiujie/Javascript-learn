@@ -7,6 +7,10 @@ import kxios from './Kxios'
 //   return nodeHttp(configs)
 // }
 
+kxios.defaults.transformResponse = function(data) {
+  return JSON.parse(data)
+}
+
 kxios.interceptors.request.use(
   function(config) {
     console.log(1)

@@ -278,7 +278,7 @@ var _default = function _default(configs) {
       resolve({
         statusCode: xhr.status,
         statusText: xhr.statusText,
-        data: xhr.responseText
+        data: configs.transformResponse(xhr.responseText)
       });
     };
 
@@ -309,6 +309,9 @@ var _default = {
   },
   adaptor: function adaptor(config) {
     return (0, _ajax.default)(config);
+  },
+  transformResponse: function transformResponse(data) {
+    return data;
   }
 };
 exports.default = _default;
@@ -341,6 +344,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // kxios.defaults.adaptor = function(configs) {
 //   return nodeHttp(configs)
 // }
+_Kxios.default.defaults.transformResponse = function (data) {
+  return JSON.parse(data);
+};
+
 _Kxios.default.interceptors.request.use(function (config) {
   console.log(1);
   return config;
