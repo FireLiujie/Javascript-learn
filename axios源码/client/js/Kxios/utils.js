@@ -21,10 +21,11 @@ function mergeConfig(obj1, obj2) {
       t[k] = source[k]
     }
     if (['header'].includes(k)) {
-      t[k] = source[k]
+      t[k] = Object.assign(target[k], source[k])
     }
     return t
   }, target)
+  return target
 }
 
 export { deepCopy, mergeConfig }

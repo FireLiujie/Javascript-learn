@@ -153,11 +153,12 @@ function mergeConfig(obj1, obj2) {
     }
 
     if (['header'].includes(k)) {
-      t[k] = source[k];
+      t[k] = Object.assign(target[k], source[k]);
     }
 
     return t;
   }, target);
+  return target;
 }
 },{}],"js/Kxios/Kxios.js":[function(require,module,exports) {
 "use strict";
@@ -187,12 +188,8 @@ function () {
   _createClass(Kxios, [{
     key: "get",
     value: function get(url, config) {
-      var _this = this;
-
       // 把get传入的配置与对象默认配置进行整合
       var configs = (0, _utils.mergeConfig)(this.defaults, config);
-      console.log(configs);
-      console.log(this.defaults);
       return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
 
@@ -200,7 +197,7 @@ function () {
           resolve(xhr.responseText);
         };
 
-        xhr.open('get', _this.defaults.baseURL + _this.defaults.url, true); //   xhr.open('get', url, true)
+        xhr.open('get', configs.baseURL + url, true); //   xhr.open('get', url, true)
 
         xhr.send();
       });
@@ -254,6 +251,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import Kxios from './Kxios/kxios'
 // kxios.defaults.method = 'post'
+_Kxios.default.interceptors.request.use(function (config) {
+  console.log(1);
+  return config;
+}, function () {
+  console.log('err');
+});
+
 _Kxios.default.get('/data', {
   baseURL: 'http://localhost:7777',
   headers: {

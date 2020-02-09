@@ -2,6 +2,17 @@ import kxios from './Kxios'
 // import Kxios from './Kxios/kxios'
 
 // kxios.defaults.method = 'post'
+
+kxios.interceptors.request.use(
+  function(config) {
+    console.log(1)
+    return config
+  },
+  function() {
+    console.log('err')
+  }
+)
+
 kxios
   .get('/data', {
     baseURL: 'http://localhost:7777',
