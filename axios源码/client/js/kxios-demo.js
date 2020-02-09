@@ -13,6 +13,25 @@ kxios.interceptors.request.use(
   }
 )
 
+kxios.interceptors.request.use(
+  function(config) {
+    console.log(2)
+    return config
+  },
+  function() {
+    console.log('err')
+  }
+)
+
+kxios.interceptors.response.use(
+  function(res) {
+    console.log('response', res)
+    return res
+  },
+  function() {
+    console.log('err')
+  }
+)
 kxios
   .get('/data', {
     baseURL: 'http://localhost:7777',

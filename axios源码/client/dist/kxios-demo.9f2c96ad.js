@@ -160,6 +160,43 @@ function mergeConfig(obj1, obj2) {
   }, target);
   return target;
 }
+},{}],"js/Kxios/interceptorsManage.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var InterceptorsManage =
+/*#__PURE__*/
+function () {
+  function InterceptorsManage() {
+    _classCallCheck(this, InterceptorsManage);
+
+    this.handlers = [];
+  }
+
+  _createClass(InterceptorsManage, [{
+    key: "use",
+    value: function use(resolvedHandler, rejectedHandler) {
+      this.handlers.push({
+        resolvedHandler: resolvedHandler,
+        rejectedHandler: rejectedHandler
+      });
+    }
+  }]);
+
+  return InterceptorsManage;
+}();
+
+exports.default = InterceptorsManage;
 },{}],"js/Kxios/Kxios.js":[function(require,module,exports) {
 "use strict";
 
@@ -169,6 +206,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _utils = require("./utils");
+
+var _interceptorsManage = _interopRequireDefault(require("./interceptorsManage"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -183,21 +224,46 @@ function () {
     _classCallCheck(this, Kxios);
 
     this.defaults = (0, _utils.deepCopy)(config);
+    this.interceptors = {
+      request: new _interceptorsManage.default(),
+      response: new _interceptorsManage.default()
+    };
   }
 
   _createClass(Kxios, [{
     key: "get",
     value: function get(url, config) {
       // 把get传入的配置与对象默认配置进行整合
+      config.url = url;
       var configs = (0, _utils.mergeConfig)(this.defaults, config);
+      console.log(configs); // config.url = url
+      // console.log(this.defaults)
+
+      var promise = Promise.resolve(configs);
+      this.interceptors.request.handlers.forEach(function (handler) {
+        promise = promise.then(handler.resolvedHandler, handler.rejectedHandler);
+      });
+      promise = promise.then(this.dispatch, undefined);
+      this.interceptors.response.handlers.forEach(function (handler) {
+        promise = promise.then(handler.resolvedHandler, handler.rejectedHandler);
+      });
+      return promise;
+    }
+  }, {
+    key: "dispatch",
+    value: function dispatch(configs) {
       return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
 
         xhr.onload = function () {
-          resolve(xhr.responseText);
+          resolve({
+            statusCode: xhr.status,
+            statusText: xhr.statusText,
+            data: xhr.responseText
+          });
         };
 
-        xhr.open('get', configs.baseURL + url, true); //   xhr.open('get', url, true)
+        xhr.open('get', configs.baseURL + configs.url, true); //   xhr.open('get', url, true)
 
         xhr.send();
       });
@@ -209,7 +275,7 @@ function () {
 
 var _default = Kxios;
 exports.default = _default;
-},{"./utils":"js/Kxios/utils.js"}],"js/Kxios/config.js":[function(require,module,exports) {
+},{"./utils":"js/Kxios/utils.js","./interceptorsManage":"js/Kxios/interceptorsManage.js"}],"js/Kxios/config.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -254,6 +320,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _Kxios.default.interceptors.request.use(function (config) {
   console.log(1);
   return config;
+}, function () {
+  console.log('err');
+});
+
+_Kxios.default.interceptors.request.use(function (config) {
+  console.log(2);
+  return config;
+}, function () {
+  console.log('err');
+});
+
+_Kxios.default.interceptors.response.use(function (res) {
+  console.log('response', res);
+  return res;
 }, function () {
   console.log('err');
 });
