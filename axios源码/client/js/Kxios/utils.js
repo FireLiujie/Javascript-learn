@@ -3,7 +3,7 @@ function deepCopy(source) {
   for (let key in source) {
     if (source.hasOwnProperty(key)) {
       if (typeof source[key] === 'object' && source !== null) {
-        deepCopy(source[key])
+        target[key] = deepCopy(source[key])
       } else {
         target[key] = source[key]
       }
@@ -25,8 +25,6 @@ function mergeConfig(obj1, obj2) {
     }
     return t
   }, target)
-  console.log(target)
-  console.log(source)
 }
 
 export { deepCopy, mergeConfig }

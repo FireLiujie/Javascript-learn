@@ -134,7 +134,7 @@ function deepCopy(source) {
   for (var key in source) {
     if (source.hasOwnProperty(key)) {
       if (_typeof(source[key]) === 'object' && source !== null) {
-        deepCopy(source[key]);
+        target[key] = deepCopy(source[key]);
       } else {
         target[key] = source[key];
       }
@@ -158,8 +158,6 @@ function mergeConfig(obj1, obj2) {
 
     return t;
   }, target);
-  console.log(target);
-  console.log(source);
 }
 },{}],"js/Kxios/Kxios.js":[function(require,module,exports) {
 "use strict";
@@ -192,10 +190,9 @@ function () {
       var _this = this;
 
       // 把get传入的配置与对象默认配置进行整合
-      // this.defaults.url = url
-      // this.defaults = Object.assign(this.defaults, config)
       var configs = (0, _utils.mergeConfig)(this.defaults, config);
       console.log(configs);
+      console.log(this.defaults);
       return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
 
@@ -301,7 +298,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57286" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56005" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

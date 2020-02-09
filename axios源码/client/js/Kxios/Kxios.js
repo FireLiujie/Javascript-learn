@@ -6,10 +6,9 @@ class Kxios {
   }
   get(url, config) {
     // 把get传入的配置与对象默认配置进行整合
-    // this.defaults.url = url
-    // this.defaults = Object.assign(this.defaults, config)
     let configs = mergeConfig(this.defaults, config)
     console.log(configs)
+    console.log(this.defaults)
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest()
       xhr.onload = function() {
