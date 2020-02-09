@@ -29,19 +29,8 @@ class Kxios {
   }
 
   dispatch(configs) {
-    return new Promise((resolve, reject) => {
-      let xhr = new XMLHttpRequest()
-      xhr.onload = function() {
-        resolve({
-          statusCode: xhr.status,
-          statusText: xhr.statusText,
-          data: xhr.responseText
-        })
-      }
-      xhr.open('get', configs.baseURL + configs.url, true)
-      //   xhr.open('get', url, true)
-      xhr.send()
-    })
+    let adaptor = configs.adaptor(configs)
+    return adaptor
   }
 }
 

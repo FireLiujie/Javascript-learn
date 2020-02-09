@@ -3,6 +3,10 @@ import kxios from './Kxios'
 
 // kxios.defaults.method = 'post'
 
+// kxios.defaults.adaptor = function(configs) {
+//   return nodeHttp(configs)
+// }
+
 kxios.interceptors.request.use(
   function(config) {
     console.log(1)

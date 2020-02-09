@@ -252,21 +252,8 @@ function () {
   }, {
     key: "dispatch",
     value: function dispatch(configs) {
-      return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-
-        xhr.onload = function () {
-          resolve({
-            statusCode: xhr.status,
-            statusText: xhr.statusText,
-            data: xhr.responseText
-          });
-        };
-
-        xhr.open('get', configs.baseURL + configs.url, true); //   xhr.open('get', url, true)
-
-        xhr.send();
-      });
+      var adaptor = configs.adaptor(configs);
+      return adaptor;
     }
   }]);
 
@@ -275,23 +262,57 @@ function () {
 
 var _default = Kxios;
 exports.default = _default;
-},{"./utils":"js/Kxios/utils.js","./interceptorsManage":"js/Kxios/interceptorsManage.js"}],"js/Kxios/config.js":[function(require,module,exports) {
+},{"./utils":"js/Kxios/utils.js","./interceptorsManage":"js/Kxios/interceptorsManage.js"}],"js/Kxios/ajax.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _default = function _default(configs) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+      resolve({
+        statusCode: xhr.status,
+        statusText: xhr.statusText,
+        data: xhr.responseText
+      });
+    };
+
+    xhr.open('get', configs.baseURL + configs.url, true);
+    xhr.send();
+  });
+};
+
+exports.default = _default;
+},{}],"js/Kxios/config.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _ajax = _interopRequireDefault(require("./ajax"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var _default = {
   baseURL: '',
   url: '',
   method: 'get',
   headers: {
     'content-type': 'application/json'
+  },
+  adaptor: function adaptor(config) {
+    return (0, _ajax.default)(config);
   }
 };
 exports.default = _default;
-},{}],"js/Kxios/index.js":[function(require,module,exports) {
+},{"./ajax":"js/Kxios/ajax.js"}],"js/Kxios/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -317,6 +338,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import Kxios from './Kxios/kxios'
 // kxios.defaults.method = 'post'
+// kxios.defaults.adaptor = function(configs) {
+//   return nodeHttp(configs)
+// }
 _Kxios.default.interceptors.request.use(function (config) {
   console.log(1);
   return config;
