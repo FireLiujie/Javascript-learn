@@ -339,7 +339,6 @@ var _Kxios = _interopRequireDefault(require("./Kxios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import Kxios from './Kxios/kxios'
 // kxios.defaults.method = 'post'
 // kxios.defaults.adaptor = function(configs) {
 //   return nodeHttp(configs)

@@ -1,5 +1,4 @@
 import kxios from './Kxios'
-// import Kxios from './Kxios/kxios'
 
 // kxios.defaults.method = 'post'
 
