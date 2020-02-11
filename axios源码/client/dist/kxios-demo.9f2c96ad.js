@@ -236,9 +236,7 @@ function () {
       // 把get传入的配置与对象默认配置进行整合
       config.url = url;
       var configs = (0, _utils.mergeConfig)(this.defaults, config);
-      console.log(configs); // config.url = url
-      // console.log(this.defaults)
-
+      console.log(configs);
       var promise = Promise.resolve(configs);
       this.interceptors.request.handlers.forEach(function (handler) {
         promise = promise.then(handler.resolvedHandler, handler.rejectedHandler);

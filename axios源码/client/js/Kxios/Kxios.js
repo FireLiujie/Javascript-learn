@@ -14,8 +14,6 @@ class Kxios {
     config.url = url
     let configs = mergeConfig(this.defaults, config)
     console.log(configs)
-    // config.url = url
-    // console.log(this.defaults)
 
     let promise = Promise.resolve(configs)
     this.interceptors.request.handlers.forEach(handler => {
