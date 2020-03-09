@@ -18,3 +18,28 @@ _jsContext = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScrip
         NSLog(@"%@",@"获取 WebView JS 执行环境失败了!");
     };
 ```
+
+WKWebView 原生交互原理  
+通过 userContentController 把需要观察的 JS 执行函数注册起来  
+然后通过一个协议方法，将所有注册过的 JS 函数执行的参数传递到此协议方法中
+
+注册需要观察的 JS 执行函数
+
+```
+ [webView.configuration.userContentController addScriptMessageHandler:self name:@"jsFunc"];
+
+```
+
+在 JS 中调用这个函数并传递参数数据
+
+```
+window.webkit.messageHandlers.jsFunc.postMessage({name : "李四",age : 22});
+```
+
+OC 中遵守 WKScriptMessageHandler 协议
+
+```
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
+```
+
+> 此协议方法里的 WKScriptMessage 有 name & body 两个属性。name 可以判断是哪个 JSFunc 调用了。body 则是 JSFunc 传递到 OC 的参数
