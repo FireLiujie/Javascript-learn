@@ -54,3 +54,40 @@ WebViewJavaScriptBridge 用于 WKWebView & UIWebView 中 OC 和 JS 交互
 > 把 JS 的方法注册在桥梁中，让 OC 去调用
 
 #### 注册自己，调用它人
+
+### WebViewJavaScriptBridge 基本使用
+
+1、首先在项目中导入 WebViewJavaScriptBridge 框架
+
+```
+pod ‘WebViewJavascriptBridge’
+```
+
+2、导入头文件 #import <WebViewJavascriptBridge.h>  
+3、建立 WebViewJavaScriptBridge 和 WebView 之间的关系
+
+```
+_jsBridge = [WebViewJavascriptBridge bridgeForWebView:_webView];
+```
+
+4、在 HTML 文件中，复制粘贴这两段 JS 函数
+
+```
+function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback]; // 创建一个 WVJBCallbacks 全局属性数组，并将 callback 插入到数组中。
+        var WVJBIframe = document.createElement('iframe'); // 创建一个 iframe 元素
+        WVJBIframe.style.display = 'none'; // 不显示
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__'; // 设置 iframe 的 src 属性
+        document.documentElement.appendChild(WVJBIframe); // 把 iframe 添加到当前文导航上。
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+
+    // 这里主要是注册 OC 将要调用的 JS 方法。
+    setupWebViewJavascriptBridge(function(bridge){
+
+    });
+```
+
+#### 到此为止，基本的准备工作就做完了。现在需要往桥梁中注入 OC 方法和 JS 函数了。
