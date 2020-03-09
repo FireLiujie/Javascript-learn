@@ -43,3 +43,14 @@ OC 中遵守 WKScriptMessageHandler 协议
 ```
 
 > 此协议方法里的 WKScriptMessage 有 name & body 两个属性。name 可以判断是哪个 JSFunc 调用了。body 则是 JSFunc 传递到 OC 的参数
+
+### WebViewJavaScriptBridge
+
+WebViewJavaScriptBridge 用于 WKWebView & UIWebView 中 OC 和 JS 交互
+
+它的基本原理是：
+
+> 把 OC 的方法注册道桥梁中，让 JS 去调用  
+> 把 JS 的方法注册在桥梁中，让 OC 去调用
+
+#### 注册自己，调用它人
