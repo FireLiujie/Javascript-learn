@@ -8,7 +8,8 @@ UIWebView & WKWebView
 1、UIWebView 使用 JavaScriptCore  
 2、WKWebView 使用 WKUserContentController
 
-UIWebView 原生的交互原理  
+#### UIWebView 原生的交互原理
+
 通过一个 JSContext 获取 UIWebView 的 JS 执行上下文  
 然后通过这个上下文，进行 OC & JS 的双端交互
 
@@ -19,7 +20,8 @@ _jsContext = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScrip
     };
 ```
 
-WKWebView 原生交互原理  
+#### WKWebView 原生交互原理
+
 通过 userContentController 把需要观察的 JS 执行函数注册起来  
 然后通过一个协议方法，将所有注册过的 JS 函数执行的参数传递到此协议方法中
 
@@ -48,7 +50,7 @@ OC 中遵守 WKScriptMessageHandler 协议
 
 WebViewJavaScriptBridge 用于 WKWebView & UIWebView 中 OC 和 JS 交互
 
-它的基本原理是：
+#### 它的基本原理是：
 
 > 把 OC 的方法注册道桥梁中，让 JS 去调用  
 > 把 JS 的方法注册在桥梁中，让 OC 去调用
@@ -107,7 +109,7 @@ function setupWebViewJavascriptBridge(callback) {
 #### 这段代码的意思：
 
 1、scanClick 是 OC block 的一个别名  
-2、block 本身，是 JS 通过某种方式调用到 scanClick 的时候，执行的代码块
+2、block 本身，是 JS 通过某种方式调用到 scanClick 的时候，执行的代码块  
 3、data，由于 OC 这端由 JS 调用，所以 data 是 JS 端传递过来的数据  
 4、responseCallback OC 端的 block 执行完毕之后，往 JS 端传递的数据
 
@@ -140,7 +142,7 @@ OC 方法，在 OC 中注入。JS 的方法所以必然就需要在 JS 中注入
 
 #### 基本就是：
 
-> OC 端注册 OC 的方法，OC 端调用 JS 的函数
+> OC 端注册 OC 的方法，OC 端调用 JS 的函数  
 > JS 端注册 JS 的函数，JS 端调用 OC 的方法。
 
 ## 场景
