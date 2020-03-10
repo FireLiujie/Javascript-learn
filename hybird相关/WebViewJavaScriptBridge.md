@@ -110,3 +110,35 @@ function setupWebViewJavascriptBridge(callback) {
 2、block 本身，是 JS 通过某种方式调用到 scanClick 的时候，执行的代码块
 3、data，由于 OC 这端由 JS 调用，所以 data 是 JS 端传递过来的数据  
 4、responseCallback OC 端的 block 执行完毕之后，往 JS 端传递的数据
+
+#### 往桥梁中注入 JS 函数
+
+OC 方法，在 OC 中注入。JS 的方法所以必然就需要在 JS 中注入的。  
+在 JS 的方法如何注入到桥梁呢？
+
+之前，在准备工作的时候，有两段 JS 代码  
+需要在第二段 JS 代码中，注入 JS 的函数
+
+```
+// 这里主要是注册 OC 将要调用的 JS 方法。
+    setupWebViewJavascriptBridge(function(bridge){
+        // 声明 OC 需要调用的 JS 方法。
+        bridge.registerHanlder('testJavaScriptFunction',function(data,responseCallback){
+            // data 是 OC 传递过来的数据.
+            // responseCallback 是 JS 调用完毕之后传递给 OC 的数据
+            alert("JS 被 OC 调用了.");
+            responseCallback({data: "js 的数据",from : "JS"});
+        })
+    });
+```
+
+#### 这段代码的意思：
+
+1、testJavaScriptFunction 是注入到桥梁中 JS 函数的别名。以供 OC 端使用  
+2、回调函数的 data。既然 JS 函数由 OC 调用，所以 data 是 OC 端传递过来的数据。  
+3、responseCallbakc。JS 调用在被 OC 调用完毕之后，向 OC 端传递的数据
+
+#### 基本就是：
+
+> OC 端注册 OC 的方法，OC 端调用 JS 的函数
+> JS 端注册 JS 的函数，JS 端调用 OC 的方法。
