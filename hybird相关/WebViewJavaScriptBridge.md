@@ -178,3 +178,70 @@ WebViewJavascriptBridge.callHandler('colorClick',function(dataFromOC) {
 OC 上有一个 UIButton，点击这里的按钮，把 HTML body 的颜色修改成橙色。
 
 首先，往桥梁中，注入一个修改 HTML body 颜色的 JSFunction
+
+```
+// 在这里声明 OC 需要主动调用 JS 的方法。
+    setupWebViewJavascriptBridge(function(bridge) {
+        bridge.registerHandler('changeBGColor',function(data,responseCallback){
+            // alert('aaaaaa');
+            document.body.style.backgroundColor = "orange";
+            document.getElementById("returnValue").value = data;
+        });
+    });
+```
+
+然后在 OC 端通过桥梁调用这个 changeBGColor
+
+```
+ [_jsBridge callHandler:@"changeBGColor" data:@"把 HTML 的背景颜色改成橙色!!!!"];
+```
+
+### 补充
+
+#### OC 调用 JS 的三种情况
+
+```
+// 单纯的调用 JSFunction，不往 JS 传递参数，也不需要 JSFunction 的返回值。
+    [_jsBridge callHandler:@"changeBGColor"];
+    // 调用 JSFunction，并向 JS 传递参数，但不需要 JSFunciton 的返回值。
+    [_jsBridge callHandler:@"changeBGColor" data:@"把 HTML 的背景颜色改成橙色!!!!"];
+    // 调用 JSFunction ，并向 JS 传递参数，也需要 JSFunction 的返回值。
+    [_jsBridge callHandler:@"changeBGColor" data:@"传递给 JS 的参数" responseCallback:^(id responseData) {
+        NSLog(@"JS 的返回值: %@",responseData);
+    }];
+```
+
+#### JS 调用 OC 的三种情况
+
+```
+// JS 单纯的调用 OC 的 block
+WebViewJavascriptBridge.callHandler('scanClick');
+
+// JS 调用 OC 的 block，并传递 JS 参数
+WebViewJavascriptBridge.callHandler('scanClick',"JS 参数");
+
+// JS 调用 OC 的 block，传递 JS 参数，并接受 OC 的返回值。
+WebViewJavascriptBridge.callHandler('scanClick',{data : "这是 JS 传递到 OC 的扫描数据"},function(dataFromOC){
+            alert("JS 调用了 OC 的扫描方法!");
+            document.getElementById("returnValue").value = dataFromOC;
+        });
+```
+
+可以根据实际情况，选择合适的方法。
+
+#### 关于在 OC 中，往桥梁中注入 block 的注意点
+
+在当前控制器消失的时候，要记得把注入到桥梁中的 OC block，从桥梁中删除。  
+否则，可能会出现控制器无法释放的情况
+
+```
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [_jsBridge removeHandler:@"scanClick"];
+    [_jsBridge removeHandler:@"colorClick"];
+    [_jsBridge removeHandler:@"locationClick"];
+    [_jsBridge removeHandler:@"shareClick"];
+    [_jsBridge removeHandler:@"payClick"];
+    [_jsBridge removeHandler:@"goBackClick"];
+}
+```
