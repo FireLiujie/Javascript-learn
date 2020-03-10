@@ -245,3 +245,11 @@ WebViewJavascriptBridge.callHandler('scanClick',{data : "这是 JS 传递到 OC 
     [_jsBridge removeHandler:@"goBackClick"];
 }
 ```
+
+#### 最后总结：
+
+1、UIWebView & JavaScriptCore 等于原生的 JS & OC 交互方案  
+2、WKWebView & userContentController 等于原生了 JS & OC 交互方案。  
+3、WebViewJavascriptBridge 可以搭配 UIWebView & WKWebView 进行 OC & JS 交互  
+4、WebViewJavascriptBridge 使用核心，OC 注入 OC 的方法，让 JS 调用。JS 注入 JS 函数，让 OC 调用  
+5、WebViewJavaScriptBridge 使用的需要 4 个前提步骤
