@@ -91,3 +91,22 @@ function setupWebViewJavascriptBridge(callback) {
 ```
 
 #### 到此为止，基本的准备工作就做完了。现在需要往桥梁中注入 OC 方法和 JS 函数了。
+
+## 往桥梁中注入 OC 方法和 JS 函数
+
+### 往桥梁中注入 OC 方法
+
+```
+[_jsBridge registerHandler:@"scanClick" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"dataFrom JS : %@",data[@"data"]);
+
+        responseCallback(@"扫描结果 : www.baidu.com");
+    }];
+```
+
+#### 这段代码的意思：
+
+1、scanClick 是 OC block 的一个别名  
+2、block 本身，是 JS 通过某种方式调用到 scanClick 的时候，执行的代码块
+3、data，由于 OC 这端由 JS 调用，所以 data 是 JS 端传递过来的数据  
+4、responseCallback OC 端的 block 执行完毕之后，往 JS 端传递的数据
