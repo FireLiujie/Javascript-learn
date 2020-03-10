@@ -142,3 +142,39 @@ OC 方法，在 OC 中注入。JS 的方法所以必然就需要在 JS 中注入
 
 > OC 端注册 OC 的方法，OC 端调用 JS 的函数
 > JS 端注册 JS 的函数，JS 端调用 OC 的方法。
+
+## 场景
+
+#### JS -> OC 的交互
+
+在 HTML 中，有个按钮，点击这个按钮，修改 NavigationBar 的颜色。
+
+1、在 OC 端，往桥梁注入一个修改 NavigationBar 颜色的 block.  
+2、在 JS 端，调用这个 block，来间接的达到修改颜色的目的。
+
+首先，在 OC 中，通过 WebViewJavaScriptBridge 注册一个修改 navigationBar 颜色的 Block.
+
+```
+[_jsBridge registerHandler:@"colorClick" handler:^(id data, WVJBResponseCallback responseCallback) {
+       self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:arc4random_uniform(256) / 255.0 green:arc4random_uniform(256) / 255.0 blue:arc4random_uniform(256) / 255.0 alpha:1.0];
+
+        responseCallback(@"颜色修改完毕!");
+    }];
+```
+
+然后在 JS 中，通过某种方式去调用这个 OC 的 Block。
+
+```
+WebViewJavascriptBridge.callHandler('colorClick',function(dataFromOC) {
+            alert("JS 调用了 OC 注册的 colorClick 方法");
+            document.getElementById("returnValue").value = dataFromOC;
+        })
+```
+
+这里通过某种方式就是使用 WebViewJavascriptBridge.callHandler('OC 中 block 别名',callback)的方式来调用
+
+#### OC -> JS 的交互
+
+OC 上有一个 UIButton，点击这里的按钮，把 HTML body 的颜色修改成橙色。
+
+首先，往桥梁中，注入一个修改 HTML body 颜色的 JSFunction
