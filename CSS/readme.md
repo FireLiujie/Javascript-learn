@@ -1,6 +1,7 @@
 Normalize.css 是一种 CSS reset 的替代方案。它在默认的 HTML 元素样式上提供了跨浏览器的高度一致性。相比与传统的 CSS reset,Normalize.css 是一种现代的、为 HTML5 准备的优质替代方案(https://necolas.github.io/normalize.css/7.0.0/normalize.css)
 
-简单的 flex 布局
+### 简单的 flex 布局
+
 首先要有个容器，并设置 display:flex;display:-webkit-flex;该容器有以下六个属性：
 flex-direction(元素排列方向)
 row, row-reverse, column, column-reverse
@@ -15,7 +16,8 @@ stretch, flex-start, flex-end, center, baseline
 align-content(多行垂直对齐方式)
 stretch, flex-start, flex-end, center, space-between, space-around
 
-项目的属性：
+### 项目的属性：
+
 order 排列顺序，数值，默认 0
 "integer"
 flex-grow 定义放大比例，默认 0.即如果存在剩余空间，也不放大。
@@ -70,7 +72,8 @@ center
 baseline
 stretch
 
-flex-grow 的计算方法
+### flex-grow 的计算方法
+
 比如剩余空间为 x，三个元素的 flex-grow 分别为 a,b,c。设 sum 为 a+b+c.那么三个元素将得到剩余空间分别是 x _ a / sum,x _ b / sum,x _ c / sum.
 for example:
 父元素宽度为 500px，三个子元素的 width 分别为 100px,150px,100px.
@@ -81,7 +84,9 @@ for example:
 150 _ 2 / 6 = 50px
 150 _ 3 / 6 = 75px
 三个元素的最终宽度分别为 125px,200px,175px
-注意：
+
+## 注意：
+
 当所有元素的 flex-grow 之和小于 1 的时候，上面式子中的 sum 将会使用 1 来参与计算，而不论它们的和是多少。也就是说，当所有的元素的 flex-grow 之和小于 1 的时候，剩余空间不会全部分配给各个元素
 另外，flex-grow 还会受到 max-width 的影响。如果最终 grow 后的结果大于 max-width 指定的值，max-width 的值将会优先使用。同样会导致父元素有部分剩余空间没有分配
 flex-shrink 的计算方式
