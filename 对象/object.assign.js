@@ -13,15 +13,18 @@
 const target = { a: 1, b: 2 }
 const source1 = { b: 2, c: 2 }
 const source2 = { c: 3 }
-Object.assign(target, source1, source2)
-console.log(target)
+let newObj = Object.assign(target, source1, source2)
+console.log(target) // {a: 1, b: 2, c: 3}
+console.log(source1) // { b: 2, c: 2 }
+console.log(source2) // { c: 3 }
+console.log(newObj) // {a: 1, b: 2, c: 3}
 
 /**
  * Object.assign拷贝的属性是有限制的，只拷贝源对象的自身属性（不拷贝继承属性），也不拷贝不可枚举的属性(enumerable:false)
  */
 
- /**
-  * 注意点
-  * （1）浅拷贝
-  * Object.assign方法实行的是浅拷贝，而不是深拷贝。
-  */
+/**
+ * 注意点
+ * （1）浅拷贝
+ * Object.assign方法实行的是浅拷贝，而不是深拷贝。
+ */
