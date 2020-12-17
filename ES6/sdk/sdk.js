@@ -28,3 +28,20 @@
     return fire()
 })
 
+
+function P() {
+    // let p1 = {}
+    // p1.prototype = P.prototype
+    // return p1
+}
+let p = new P()
+
+
+
+console.log(P === p.constructor) // true
+console.log(P === P.prototype.constructor) // true
+console.log(p.constructor === P) // 
+console.log(P.prototype)
+console.log(p.constructor === P.prototype.constructor)
+console.log(P.constructor === Function)
+
