@@ -26,8 +26,26 @@
       let func = debounce(() => {
         console.log(111)
       }, 2000)
+
+      // 节流
+      function throttle(fn,wait){
+        let time = 0
+        return function(){
+          let context = this
+          let args = arguments
+          let now = Date.now()
+          if(now - time > wait){
+            fn.apply(context,args)
+            time = now
+          }
+        }
+      }
+
+      let func1 = throttle(()=>{
+        console.log(222)
+      },2000)
       let input = document.querySelector('input')
-      input.addEventListener('input', func)
+      input.addEventListener('input', func1)
     </script>
   </body>
 </html>
