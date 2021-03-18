@@ -238,6 +238,100 @@ function question23() {
         return "Just give Lydia pizza already!";
     };
     const name = "Lydia";
-    name.giveLydiaPizza();
+    console.log(name.giveLydiaPizza()) ;
 }
-question23()
+// question23()
+
+function question24() {
+    const a = {};
+    const b = { key: "b" };
+    const c = { key: "c" };
+
+    a[b] = 123;
+    a[c] = 456;
+
+    console.log(a[b]);
+}
+// question24()
+
+function question25() {
+    const foo = () => console.log("First");
+    const bar = () => setTimeout(() => console.log("Second"));
+    const baz = () => console.log("Third");
+
+    bar();
+    foo();
+    baz();
+}
+// question25()
+
+function question26() {
+    const person = { name: "Lydia" };
+
+    function sayHi(age) {
+        console.log(`${this.name} is ${age}`);
+    }
+
+    sayHi.call(person, 21);
+    sayHi.bind(person, 21);
+}
+// question26()
+
+function question27() {
+    function sayHi() {
+        return (() => 0)();
+    }
+
+    console.log(typeof sayHi()) ;
+}
+// question27()
+
+function question28() {
+    console.log(typeof typeof 1);
+}
+// question28()
+
+function question29() {
+    const numbers = [1, 2, 3];
+    numbers[10] = 11;
+    console.log(numbers);
+    console.log(numbers[5])
+}
+// question29()
+
+function question30() {
+    (() => {
+        let x, y;
+        try {
+            throw new Error();
+        } catch (x) {
+            (x = 1), (y = 2);
+            console.log(x);
+        }
+        console.log(x);
+        console.log(y);
+    })();
+}
+// question30()
+
+function question31() {
+    let result = [[0, 1], [2, 3]].reduce(
+        (acc, cur) => {
+            return acc.concat(cur);
+        },
+        [1, 2]
+    );
+    console.log(result)
+}
+// question31()
+
+function question32() {
+    let result = setInterval(() => console.log("Hi"), 1000);
+    console.log(result)
+}
+// question32()
+
+function question33() {
+    console.log([..."Lydia"]) ;
+}
+question33()
