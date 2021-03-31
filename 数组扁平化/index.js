@@ -30,3 +30,5 @@ function flatByDeep(arr, deep) {
 
 let list1 = flatByDeep(arr,1)
 console.log(list1)
+
+console.log(arr.flat()) 
